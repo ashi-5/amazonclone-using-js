@@ -80,6 +80,24 @@ class Clothing extends Product {
 
 export let products = [];
 
+// export function loadProducts(fun) {
+//   const xhr = new XMLHttpRequest();
+//   xhr.addEventListener("load", () => {
+//     products = JSON.parse(xhr.response).map((productDetails) => {
+//       if (productDetails.type === "clothing") {
+//         return new Clothing(productDetails);
+//       }
+//       return new Product(productDetails);
+//     });
+
+//     console.log("load products");
+
+//     fun();
+//   });
+
+//   xhr.open("GET", "https://supersimplebackend.dev/products");
+//   xhr.send();
+// }
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("load", () => {
@@ -92,7 +110,11 @@ export function loadProducts(fun) {
 
     console.log("load products");
 
-    fun();
+    if (typeof fun === "function") {
+      fun(); // Only call if fun is a function
+    } else {
+      console.warn("Expected a function as callback, but got:", typeof fun);
+    }
   });
 
   xhr.open("GET", "https://supersimplebackend.dev/products");
